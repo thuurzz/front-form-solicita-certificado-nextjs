@@ -6,6 +6,7 @@ import {
   Heading,
   Input,
   Text,
+  useToast,
 } from "@chakra-ui/react";
 import { useState } from "react";
 
@@ -18,14 +19,48 @@ export default function Home() {
   const [nome, setNome] = useState<string>("");
   const [email, setEmail] = useState<string>("");
 
+  const toast = useToast();
+
   const handleSubmit = () => {
-    if (nome && email) {
-      const request: ISolicitaCertificado = {
-        email,
-        nome,
-      };
-      console.log(request);
+    if (!nome || !email) {
+      toast({
+        position: "top",
+        title: "Campos em branco.",
+        description: "Verifique os campos e tente novamente.",
+        status: "warning",
+        duration: 9000,
+        isClosable: true,
+      });
+      return;
     }
+
+    const request: ISolicitaCertificado = {
+      email,
+      nome,
+    };
+    console.log(request);
+
+    const resp = true;
+
+    resp
+      ? toast({
+          position: "top",
+          title: "Solicitação enviada.",
+          description:
+            "Tudo certo, em alguns instantes verifique seu e-mail, inclusive a caixa de spam.",
+          status: "success",
+          duration: 9000,
+          isClosable: true,
+        })
+      : toast({
+          position: "top",
+          title: "Ops, ocorreu algum erro.",
+          description: "Verifique os campos e tente novamente.",
+          status: "error",
+          duration: 9000,
+          isClosable: true,
+        });
+
     handleCleanForm();
   };
 
