@@ -94,7 +94,7 @@ export default function Home() {
             onChange={(e) => setNome(e.target.value)}
             mb={4}
             type={"text"}
-            placeholder="Arthur Vinicius ..."
+            placeholder="Nome Sobrenome..."
           />
           <FormLabel>Seu email:</FormLabel>
           <Input
