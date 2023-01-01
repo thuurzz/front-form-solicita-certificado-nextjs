@@ -8,21 +8,22 @@ import {
   Text,
   useToast,
 } from "@chakra-ui/react";
+import axios from "axios";
 import { useState } from "react";
 
 type ISolicitaCertificado = {
-  nome: string;
+  name: string;
   email: string;
 };
 
 export default function Home() {
-  const [nome, setNome] = useState<string>("");
+  const [name, setname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
 
   const toast = useToast();
 
-  const handleSubmit = () => {
-    if (!nome || !email) {
+  const handleSubmit = async () => {
+    if (!name || !email) {
       toast({
         position: "top",
         title: "Campos em branco.",
@@ -36,13 +37,14 @@ export default function Home() {
 
     const request: ISolicitaCertificado = {
       email,
-      nome,
+      name,
     };
-    console.log(request);
 
-    const resp = true;
+    const resp = await axios.post("/api/lambda_certificate", request);
 
-    resp
+    console.log(resp);
+
+    resp.status === 201
       ? toast({
           position: "top",
           title: "Solicitação enviada.",
@@ -65,7 +67,7 @@ export default function Home() {
   };
 
   const handleCleanForm = () => {
-    setNome("");
+    setname("");
     setEmail("");
   };
 
@@ -88,13 +90,13 @@ export default function Home() {
           <Text fontSize={"md"} mb={6}>
             Certificado de visualização de post
           </Text>
-          <FormLabel>Seu nome:</FormLabel>
+          <FormLabel>Seu name:</FormLabel>
           <Input
-            value={nome}
-            onChange={(e) => setNome(e.target.value)}
+            value={name}
+            onChange={(e) => setname(e.target.value)}
             mb={4}
             type={"text"}
-            placeholder="Nome Sobrenome..."
+            placeholder="name Sobrename..."
           />
           <FormLabel>Seu email:</FormLabel>
           <Input
