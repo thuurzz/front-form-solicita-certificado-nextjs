@@ -7,6 +7,8 @@ import {
   Input,
   Text,
   useToast,
+  Spinner,
+  Spacer,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
@@ -19,6 +21,7 @@ type ISolicitaCertificado = {
 export default function Home() {
   const [name, setname] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [loading, setLoading] = useState<boolean>(false);
 
   const toast = useToast();
 
@@ -40,12 +43,11 @@ export default function Home() {
       name,
     };
 
-    const resp = await axios.post("/api/lambda_certificate", request);
-
-    console.log(resp);
-
-    resp.status === 201
-      ? toast({
+    try {
+      setLoading(true);
+      const resp = await axios.post("/api/lambda_certificate", request);
+      resp.status === 201 &&
+        toast({
           position: "top",
           title: "Solicitação enviada.",
           description:
@@ -53,17 +55,21 @@ export default function Home() {
           status: "success",
           duration: 9000,
           isClosable: true,
-        })
-      : toast({
-          position: "top",
-          title: "Ops, ocorreu algum erro.",
-          description: "Verifique os campos e tente novamente.",
-          status: "error",
-          duration: 9000,
-          isClosable: true,
         });
-
-    handleCleanForm();
+      handleCleanForm();
+    } catch (error) {
+      console.log(error);
+      toast({
+        position: "top",
+        title: "Ops, ocorreu algum erro.",
+        description: "Verifique os campos e tente novamente.",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleCleanForm = () => {
@@ -85,10 +91,10 @@ export default function Home() {
         border={"1px"}
         background={"white"}
       >
-        <FormControl>
+        <FormControl onSubmit={handleSubmit}>
           <Heading mb={2}>Solicitar certificado</Heading>
           <Text fontSize={"md"} mb={6}>
-            Certificado de visualização de post sobre lambda 
+            Certificado de visualização de post sobre lambda
           </Text>
           <FormLabel>Seu nome:</FormLabel>
           <Input
@@ -105,10 +111,25 @@ export default function Home() {
             mb={4}
             type={"email"}
             placeholder="email@email.com"
+            onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
           />
-          <Button mt={4} colorScheme={"teal"} onClick={handleSubmit}>
-            Enviar
-          </Button>
+          <Flex>
+            <Button
+              mt={4}
+              colorScheme={"teal"}
+              onClick={handleSubmit}
+              onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
+              disabled={!!loading}
+            >
+              Enviar
+            </Button>
+            {loading && (
+              <>
+                <Spacer />
+                <Spinner mt={5} color={"#319795"} />
+              </>
+            )}
+          </Flex>
         </FormControl>
       </Flex>
     </Flex>
