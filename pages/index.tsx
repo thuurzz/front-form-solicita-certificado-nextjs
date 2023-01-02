@@ -49,7 +49,7 @@ export default function Home() {
           position: "top",
           title: "Solicitação enviada.",
           description:
-            "Tudo certo, em alguns instantes verifique seu e-mail, inclusive a caixa de spam.",
+            "Tudo certo! Em alguns instantes verifique seu e-mail, inclusive a caixa de spam.",
           status: "success",
           duration: 9000,
           isClosable: true,
@@ -88,15 +88,15 @@ export default function Home() {
         <FormControl>
           <Heading mb={2}>Solicitar certificado</Heading>
           <Text fontSize={"md"} mb={6}>
-            Certificado de visualização de post
+            Certificado de visualização de post sobre lambda 
           </Text>
-          <FormLabel>Seu name:</FormLabel>
+          <FormLabel>Seu nome:</FormLabel>
           <Input
             value={name}
             onChange={(e) => setname(e.target.value)}
             mb={4}
             type={"text"}
-            placeholder="name Sobrename..."
+            placeholder="nome completo..."
           />
           <FormLabel>Seu email:</FormLabel>
           <Input
