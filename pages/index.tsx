@@ -87,6 +87,7 @@ export default function Home() {
       <Flex
         direction={"column"}
         p={12}
+        m={4}
         rounded={6}
         border={"1px"}
         background={"white"}
