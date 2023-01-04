@@ -9,6 +9,8 @@ import {
   useToast,
   Spinner,
   Spacer,
+  Textarea,
+  Link,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
@@ -132,6 +134,12 @@ export default function Home() {
             )}
           </Flex>
         </FormControl>
+        <Text mt={5}>
+          Designed by{" "}
+          <Link href="https://github.com/thuurzz" color={"#319795"} isExternal>
+            @thuurrzz
+          </Link>
+        </Text>
       </Flex>
     </Flex>
   );
