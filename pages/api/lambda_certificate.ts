@@ -19,13 +19,19 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data | Error>
 ) {
-  const { name, email } = req.body;
+  const { name, email, token } = req.body;
+
+  const resp = await axios.post(
+    `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.SECRET_KEY}&response=${token}`
+  );
+  if (resp.status !== 200) {
+    return res.status(400).json({ error: "reCAPTCHA don't match!" });
+  }
 
   const contact: ISolicitaCertificado = { email: email, name: name };
-  const lambda_url =
-    "https://ga1ke4385g.execute-api.us-east-1.amazonaws.com/dev/generateCertificateVisualization";
+
   try {
-    const resp = await axios.post(lambda_url, contact);
+    const resp = await axios.post(process.env.LAMBDA_URL as string, contact);
     return res.status(201).json(resp.data);
   } catch (error) {
     console.log(error);

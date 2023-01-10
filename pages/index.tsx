@@ -9,11 +9,11 @@ import {
   useToast,
   Spinner,
   Spacer,
-  Textarea,
   Link,
 } from "@chakra-ui/react";
 import axios from "axios";
-import { useState } from "react";
+import { useRef, useState } from "react";
+import ReCAPTCHA from "react-google-recaptcha";
 
 type ISolicitaCertificado = {
   name: string;
@@ -24,13 +24,16 @@ export default function Home() {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
+  const [token, setToken] = useState<string | null>(null);
 
   const toast = useToast();
+
+  const captchaRef = useRef<ReCAPTCHA>(null);
 
   const handleSubmit = async () => {
     if (!name || !email) {
       toast({
-        position: "top",
+        position: "top-left",
         title: "Campos em branco.",
         description: "Verifique os campos e tente novamente.",
         status: "warning",
@@ -47,22 +50,26 @@ export default function Home() {
 
     try {
       setLoading(true);
-      const resp = await axios.post("/api/lambda_certificate", request);
+      const resp = await axios.post("/api/lambda_certificate", {
+        ...request,
+        token: token,
+      });
+
       resp.status === 201 &&
         toast({
-          position: "top",
+          position: "top-left",
           title: "Solicitação enviada.",
-          description:
-            "Tudo certo! Em alguns instantes verifique seu e-mail, inclusive a caixa de spam.",
+          description: "Tudo certo! Verifique seu e-mail e caixa de spam.",
           status: "success",
           duration: 9000,
           isClosable: true,
         });
       handleCleanForm();
+      captchaRef.current && captchaRef.current.reset();
     } catch (error) {
       console.log(error);
       toast({
-        position: "top",
+        position: "top-left",
         title: "Ops, ocorreu algum erro.",
         description: "Verifique os campos e tente novamente.",
         status: "error",
@@ -77,6 +84,14 @@ export default function Home() {
   const handleCleanForm = () => {
     setName("");
     setEmail("");
+    setToken(null);
+  };
+
+  const handleCaptcha = () => {
+    if (captchaRef.current !== null) {
+      const token = captchaRef.current.getValue();
+      token && setToken(token);
+    }
   };
 
   return (
@@ -116,29 +131,43 @@ export default function Home() {
             placeholder="email@email.com"
             onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
           />
+          <Flex
+            flexDirection={"column"}
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
+            <Text fontSize={"smaller"} w={400} textAlign={"justify"}>
+              Atenção, ao submeter formulário, você concorda em compartilhar seu
+              endereço de e-mail apenas para recebimento do link do certificado
+              de visualização deste projeto com caráter unicamente educacional.
+            </Text>
+            <ReCAPTCHA
+              style={{ marginTop: "1rem" }}
+              sitekey={process.env.REACT_APP_SITE_KEY as string}
+              ref={captchaRef}
+              onChange={handleCaptcha}
+            />
+          </Flex>
           <Flex>
             <Button
               mt={4}
               colorScheme={"teal"}
               onClick={handleSubmit}
               onKeyDown={(e) => e.key === "Enter" && handleSubmit()}
-              disabled={!!loading}
+              disabled={!!loading || token === null}
+              width={"100%"}
             >
               Enviar
             </Button>
             {loading && (
               <>
                 <Spacer />
-                <Spinner mt={5} color={"#319795"} />
+                <Spinner mt={5} ml={1} color={"#319795"} />
               </>
             )}
           </Flex>
         </FormControl>
-        <Text fontSize={"smaller"} mt={5} w={400} textAlign={"justify"}>
-          Atenção, ao submeter formulário, você concorda em compartilhar seu
-          endereço de e-mail apenas para recebimento do link do certificado de
-          visualização deste projeto com caráter unicamente educacional.
-        </Text>
+
         <Text mt={5}>
           Designed by{" "}
           <Link href="https://github.com/thuurzz" color={"#319795"} isExternal>
