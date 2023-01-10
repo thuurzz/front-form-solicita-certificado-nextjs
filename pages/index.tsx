@@ -10,6 +10,15 @@ import {
   Spinner,
   Spacer,
   Link,
+  Popover,
+  PopoverArrow,
+  PopoverBody,
+  PopoverCloseButton,
+  PopoverContent,
+  PopoverFooter,
+  PopoverHeader,
+  PopoverTrigger,
+  Portal,
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useRef, useState } from "react";
@@ -144,18 +153,39 @@ export default function Home() {
             alignItems={"center"}
             justifyContent={"center"}
           >
-            <Text fontSize={"smaller"} textAlign={"justify"}>
-              Atenção, ao submeter formulário, você concorda em compartilhar seu
-              endereço de e-mail apenas para recebimento do link do certificado
-              de visualização deste projeto com caráter unicamente educativo.
-            </Text>
-            <ReCAPTCHA
-              style={{ marginTop: "1rem" }}
-              sitekey={process.env.REACT_APP_SITE_KEY as string}
-              ref={captchaRef}
-              onChange={handleCaptcha}
-              onExpired={() => setToken(null)}
-            />
+            <Popover>
+              <PopoverTrigger>
+                <Text fontSize={"smaller"}>
+                  Ao clicar em enviar, você estará concordando com os{" "}
+                  <Link color={"#319795"}>termos de uso</Link>.
+                </Text>
+              </PopoverTrigger>
+              <Portal>
+                <PopoverContent>
+                  <PopoverArrow />
+                  <PopoverHeader>Termos de uso</PopoverHeader>
+                  <PopoverCloseButton />
+                  <PopoverBody>
+                    <Text fontSize={"smaller"} textAlign={"justify"}>
+                      Atenção! <br />
+                      Ao submeter este formulário, você concorda em compartilhar seu
+                      endereço de e-mail para recebimento do link do certificado
+                      de visualização deste projeto, com caráter unicamente
+                      educativo.
+                    </Text>
+                  </PopoverBody>
+                </PopoverContent>
+              </Portal>
+            </Popover>
+            {name && email && (
+              <ReCAPTCHA
+                style={{ marginTop: "1rem" }}
+                sitekey={process.env.REACT_APP_SITE_KEY as string}
+                ref={captchaRef}
+                onChange={handleCaptcha}
+                onExpired={() => setToken(null)}
+              />
+            )}
           </Flex>
           <Flex>
             <Button
