@@ -112,7 +112,7 @@ export default function Home() {
         <FormControl onSubmit={handleSubmit}>
           <Heading mb={2}>Solicitar certificado</Heading>
           <Text fontSize={"md"} mb={6}>
-            Certificado de visualização de post sobre Serverless
+            Certificado de visualização de post sobre serverless
           </Text>
           <FormLabel>Seu nome:</FormLabel>
           <Input
@@ -139,7 +139,7 @@ export default function Home() {
             <Text fontSize={"smaller"} w={300} textAlign={"justify"}>
               Atenção, ao submeter formulário, você concorda em compartilhar seu
               endereço de e-mail apenas para recebimento do link do certificado
-              de visualização deste projeto com caráter unicamente educacional.
+              de visualização deste projeto com caráter unicamente educativo.
             </Text>
             <ReCAPTCHA
               style={{ marginTop: "1rem" }}
