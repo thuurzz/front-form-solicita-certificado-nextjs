@@ -14,6 +14,7 @@ import {
 import axios from "axios";
 import { useRef, useState } from "react";
 import ReCAPTCHA from "react-google-recaptcha";
+import * as yup from "yup";
 
 type ISolicitaCertificado = {
   name: string;
@@ -31,10 +32,21 @@ export default function Home() {
   const captchaRef = useRef<ReCAPTCHA>(null);
 
   const handleSubmit = async () => {
-    if (!name || !email) {
+    const request: ISolicitaCertificado = {
+      email,
+      name,
+    };
+
+    const schema = yup.object().shape({
+      name: yup.string().required().max(30).min(3),
+      email: yup.string().email().required().max(30),
+    });
+
+    const validate = await schema.isValid(request);
+    if (!validate) {
       toast({
         position: "top-left",
-        title: "Campos em branco.",
+        title: "Ops, erro na validação.",
         description: "Verifique os campos e tente novamente.",
         status: "warning",
         duration: 9000,
@@ -42,11 +54,6 @@ export default function Home() {
       });
       return;
     }
-
-    const request: ISolicitaCertificado = {
-      email,
-      name,
-    };
 
     try {
       setLoading(true);
@@ -110,7 +117,7 @@ export default function Home() {
         border={"1px"}
         background={"white"}
       >
-        <FormControl onSubmit={handleSubmit}>
+        <FormControl onSubmit={handleSubmit} isRequired>
           <Heading mb={2}>Solicitar certificado</Heading>
           <Text fontSize={"md"} mb={6}>
             Post sobre arquitetura serverless
@@ -147,6 +154,7 @@ export default function Home() {
               sitekey={process.env.REACT_APP_SITE_KEY as string}
               ref={captchaRef}
               onChange={handleCaptcha}
+              onExpired={() => setToken(null)}
             />
           </Flex>
           <Flex>
