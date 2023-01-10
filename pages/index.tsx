@@ -136,7 +136,7 @@ export default function Home() {
             alignItems={"center"}
             justifyContent={"center"}
           >
-            <Text fontSize={"smaller"} w={300} textAlign={"justify"}>
+            <Text fontSize={"smaller"} w={250} textAlign={"justify"}>
               Atenção, ao submeter formulário, você concorda em compartilhar seu
               endereço de e-mail apenas para recebimento do link do certificado
               de visualização deste projeto com caráter unicamente educacional.
