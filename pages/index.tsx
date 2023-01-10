@@ -21,7 +21,7 @@ type ISolicitaCertificado = {
 };
 
 export default function Home() {
-  const [name, setname] = useState<string>("");
+  const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(false);
 
@@ -75,7 +75,7 @@ export default function Home() {
   };
 
   const handleCleanForm = () => {
-    setname("");
+    setName("");
     setEmail("");
   };
 
@@ -97,12 +97,12 @@ export default function Home() {
         <FormControl onSubmit={handleSubmit}>
           <Heading mb={2}>Solicitar certificado</Heading>
           <Text fontSize={"md"} mb={6}>
-            Certificado de visualização de post sobre lambda
+            Certificado de visualização de post sobre Serverless
           </Text>
           <FormLabel>Seu nome:</FormLabel>
           <Input
             value={name}
-            onChange={(e) => setname(e.target.value)}
+            onChange={(e) => setName(e.target.value)}
             mb={4}
             type={"text"}
             placeholder="nome completo..."
@@ -134,6 +134,11 @@ export default function Home() {
             )}
           </Flex>
         </FormControl>
+        <Text fontSize={"smaller"} mt={5} w={400} textAlign={"justify"}>
+          Atenção, ao submeter formulário, você concorda em compartilhar seu
+          endereço de e-mail apenas para recebimento do link do certificado de
+          visualização deste projeto com caráter unicamente educacional.
+        </Text>
         <Text mt={5}>
           Designed by{" "}
           <Link href="https://github.com/thuurzz" color={"#319795"} isExternal>

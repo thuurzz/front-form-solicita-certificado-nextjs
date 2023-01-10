@@ -29,6 +29,6 @@ export default async function handler(
     return res.status(201).json(resp.data);
   } catch (error) {
     console.log(error);
-    res.status(400).json({ error: "Error occured." });
+    res.status(400).json({ error: "Error occurred." });
   }
 }
