@@ -103,6 +103,7 @@ export default function Home() {
     >
       <Flex
         direction={"column"}
+        w={400}
         p={8}
         m={4}
         rounded={6}
@@ -112,7 +113,7 @@ export default function Home() {
         <FormControl onSubmit={handleSubmit}>
           <Heading mb={2}>Solicitar certificado</Heading>
           <Text fontSize={"md"} mb={6}>
-            Certificado de visualização de post sobre serverless
+            Post sobre arquitetura serverless
           </Text>
           <FormLabel>Seu nome:</FormLabel>
           <Input
@@ -136,7 +137,7 @@ export default function Home() {
             alignItems={"center"}
             justifyContent={"center"}
           >
-            <Text fontSize={"smaller"} w={300} textAlign={"justify"}>
+            <Text fontSize={"smaller"} textAlign={"justify"}>
               Atenção, ao submeter formulário, você concorda em compartilhar seu
               endereço de e-mail apenas para recebimento do link do certificado
               de visualização deste projeto com caráter unicamente educativo.
