@@ -54,7 +54,7 @@ export default function Home() {
     const validate = await schema.isValid(request);
     if (!validate) {
       toast({
-        position: "top-left",
+        position: "top",
         title: "Ops, erro na validação.",
         description: "Verifique os campos e tente novamente.",
         status: "warning",
@@ -73,7 +73,7 @@ export default function Home() {
 
       resp.status === 201 &&
         toast({
-          position: "top-left",
+          position: "top",
           title: "Solicitação enviada.",
           description: "Tudo certo! Verifique seu e-mail e caixa de spam.",
           status: "success",
@@ -85,7 +85,7 @@ export default function Home() {
     } catch (error) {
       console.log(error);
       toast({
-        position: "top-left",
+        position: "top",
         title: "Ops, ocorreu algum erro.",
         description: "Verifique os campos e tente novamente.",
         status: "error",
@@ -168,10 +168,10 @@ export default function Home() {
                   <PopoverBody>
                     <Text fontSize={"smaller"} textAlign={"justify"}>
                       Atenção! <br />
-                      Ao submeter este formulário, você concorda em compartilhar seu
-                      endereço de e-mail para recebimento do link do certificado
-                      de visualização deste projeto, com caráter unicamente
-                      educativo.
+                      Ao submeter este formulário, você concorda em compartilhar
+                      seu endereço de e-mail para recebimento do link do
+                      certificado de visualização deste projeto, com caráter
+                      unicamente educativo.
                     </Text>
                   </PopoverBody>
                 </PopoverContent>
