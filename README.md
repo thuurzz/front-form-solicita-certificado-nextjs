@@ -1,3 +1,13 @@
+## Draw project archtecture
+
+<img width="949" alt="Captura de Tela 2023-01-09 às 21 53 33" src="https://user-images.githubusercontent.com/53263896/211689194-5a83cec4-b171-45b9-9be9-e6ee7162ada5.png">
+
+### Link to serverless project used to integrate with this frontend
+
+[Serveless backend with SERVERLESS FRAMEWORK](https://github.com/thuurzz/serverless-nodejs-rocketseat)
+
+___
+
 This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
 
 ## Getting Started
